@@ -10,3 +10,8 @@ helm.exe
 *logs
 
 *.SHA
+# Eclipse
+.settings/
+.project
+.classpath
+
