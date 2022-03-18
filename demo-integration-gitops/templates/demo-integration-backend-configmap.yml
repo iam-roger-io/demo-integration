@@ -1,0 +1,24 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: '{{ .Values.backend.app.name }}'
+  namespace: demo-integration
+data:
+  application.properties: |-
+
+    camel.springboot.name=demo-integration-backend
+
+    camel.component.servlet.mapping.contextPath=/*
+
+    server.address=0.0.0.0
+
+    server.port=8080
+
+    management.server.port=8081
+
+    # Database
+    database.mysql.url=jdbc:mysql://mysql:3306/demointegrationdb
+
+    database.mysql.username=root
+
+    database.mysql.password=1qaz@WSX

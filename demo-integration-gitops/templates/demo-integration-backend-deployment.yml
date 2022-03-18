@@ -1,0 +1,64 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: '*'
+  name: '{{ .Values.backend.app.name }}'
+  namespace: demo-integration
+  labels:
+    app: '{{ .Values.backend.app.name }}'
+    app.kubernetes.io/component: '{{ .Values.backend.app.name }}'
+    app.kubernetes.io/instance: '{{ .Values.backend.app.name }}'
+    app.kubernetes.io/name: '{{ .Values.backend.app.name }}'
+    app.kubernetes.io/part-of: '{{ .Values.backend.app.name }}'
+    app.openshift.io/runtime-namespace: demo-integration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: '{{ .Values.backend.app.name }}'
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: '{{ .Values.backend.app.name }}'
+        deploymentconfig: '{{ .Values.backend.app.name }}'
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+    spec:
+      volumes:
+        - name: '{{ .Values.backend.app.name }}'
+          configMap:
+            name: '{{ .Values.backend.app.name }}'
+            defaultMode: 493
+      containers:
+        - name: '{{ .Values.backend.app.name }}'
+          image: '{{ .Values.backend.image }}'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+            - containerPort: 9779
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: '{{ .Values.backend.app.name }}'
+              mountPath: /opt/fuse
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

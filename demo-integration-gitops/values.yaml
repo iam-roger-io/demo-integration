@@ -1,0 +1,9 @@
+cluster: {}
+database: 
+  mysql: 
+   image: rhel8/mysql-80:1-162.1645816983    
+backend: 
+   app: 
+     name: 'demo-integration-backend'   
+   image: iamrogerio2/demo-integration-backend:1.0
+frontend: {}
