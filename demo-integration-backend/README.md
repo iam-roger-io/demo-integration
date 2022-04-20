@@ -3,6 +3,8 @@
 #### Deploy MySQL Openshift
 
 ```
+oc new-project demo-integration
+
 oc new-app --template=mysql-persistent \
 -p MYSQL_USER=admin \
 -p MYSQL_PASSWORD=admin \
@@ -26,11 +28,33 @@ FLUSH PRIVILEGES;
 [./database/demointegrationdb.sql](./database/demointegrationdb.sql)
 
 
+## Deploy manual no Openshift 4
 
-
-## Deploy on Openshift
+### Criar config map com o arquivo de properties da pasta resources/spring
 
 ```
+oc create configmap  demo-integration-backend --from-file ./application.properties 
+```
+
+### Criar a aplicação
+```
 oc new-app iamrogerio2/demo-integration-backend:2.0
-oc set volume deploymentconfig.apps.openshift.io/demo-integration-backend --add --name=demo-integration-backend  -m /opt/fuse -t configmap --configmap-name=demo-integration-backend --default-mode='0777' --overwrite
+
+```
+
+### bind configMap ao deploymentconfig
+
+```
+oc set volume deploymentconfig.apps.openshift.io/demo-integration-backend --add \
+   --name=demo-integration-backend  \
+   -m /opt/fuse \
+   -t configmap \
+   --configmap-name=demo-integration-backend \
+   --default-mode='0777' \
+   --overwrite
+```
+
+### Criar rota
+```
+oc create route edge api --service=demo-integration-backend --port=8080-tcp
 ```
