@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.redhat.consulting.fuse.entity.CountryEntity;
-import com.redhat.consulting.fuse.entity.PersonEntity;
+import com.redhat.consulting.fuse.entity.PeopleEntity;
 import com.redhat.consulting.fuse.entity.StateEntity;
 import com.redhat.consulting.fuse.model.PersonModel;
 
@@ -27,7 +27,7 @@ public class RegisterPersonProcessor implements Processor {
 		LOGGER.info("### Model :: " + model.toString());
 		
 		
-		PersonEntity entity = new PersonEntity();
+		PeopleEntity entity = new PeopleEntity();
 		entity.setName(model.getNome());
 		entity.setAddress2(model.getComplemento());
 		entity.setCity(model.getCidade());
@@ -42,7 +42,7 @@ public class RegisterPersonProcessor implements Processor {
 		
 		LOGGER.info("### Entity :: " + entity.toString());
 		
-		exchange.getIn().setBody(entity, PersonEntity.class);
+		exchange.getIn().setBody(entity, PeopleEntity.class);
 		
 	}	
 	

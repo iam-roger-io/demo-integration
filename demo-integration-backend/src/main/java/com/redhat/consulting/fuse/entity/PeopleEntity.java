@@ -16,9 +16,9 @@ import javax.persistence.Table;
 import com.redhat.consulting.fuse.model.PersonModel;
 
 @Entity
-@Table(name = "person")
-@NamedQuery(name = "findAllPeople", query = "select a from PersonEntity a")
-public class PersonEntity implements Serializable {
+@Table(name = "people")
+@NamedQuery(name = "findAllPeople", query = "select a from PeopleEntity a")
+public class PeopleEntity implements Serializable {
 
 	private static final long serialVersionUID = 6932170202779243732L;
 
@@ -56,10 +56,10 @@ public class PersonEntity implements Serializable {
 	private StateEntity state;	
 	
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "country_id", referencedColumnName = "id")    
+    @JoinColumn(name = "country_code", referencedColumnName = "country_code")    
     private CountryEntity country;
     
-	public PersonEntity() {
+	public PeopleEntity() {
 	}
 
 	public String getId() {
@@ -170,7 +170,7 @@ public class PersonEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PersonEntity [id=" + id + ", name=" + name + ", email=" + email + ", socialSecuriry=" + socialSecuriry
+		return "PeopleEntity [id=" + id + ", name=" + name + ", email=" + email + ", socialSecuriry=" + socialSecuriry
 				+ ", mobile=" + mobile + ", endereco=" + endereco + ", address2=" + address2 + ", city=" + city
 				+ ", zipCode=" + zipCode + ", state=" + state + ", country=" + country + "]";
 	}

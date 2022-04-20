@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.redhat.consulting</groupId>
 	<artifactId>demo-intergration-backend</artifactId>
-	<version>2.0</version>
+	<version>1.0</version>
 	
 	<properties>
 		<project.reporting.outputencoding>UTF-8</project.reporting.outputencoding>
@@ -81,6 +81,16 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-servlet-starter</artifactId>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spark-rest</artifactId>
+		</dependency> -->
+
+<!-- 		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-restlet</artifactId>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>

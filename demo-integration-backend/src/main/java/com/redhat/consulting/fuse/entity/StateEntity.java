@@ -7,8 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "state")
@@ -20,13 +25,18 @@ public class StateEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer id;	
+	private Integer id;		
 	
 	@Column(name="name")
 	private String name;
 	
 	@Column(name="abbreviation")
 	private String abbreviation;
+	
+	@ManyToOne
+	@JoinColumn(name = "country_code", referencedColumnName = "country_code")
+	@JsonManagedReference
+	private CountryEntity country;
 	
 	public StateEntity() {
 		super();
@@ -71,6 +81,14 @@ public class StateEntity implements Serializable {
 
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
+	}
+
+	public CountryEntity getCountry() {
+		return country;
+	}
+
+	public void setCountry(CountryEntity country) {
+		this.country = country;
 	}	
 	
 }
