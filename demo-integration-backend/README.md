@@ -58,3 +58,9 @@ oc set volume deploymentconfig.apps.openshift.io/demo-integration-backend --add 
 ```
 oc create route edge api --service=demo-integration-backend --port=8080-tcp
 ```
+
+Endpoints
+```
+<ROUTE/HOST>/geo/state/BRhttps://api-demo-integration.apps.hml.sefaz.se.gov.br/geo/state/BR
+<ROUTE/HOST>/geo/state/BRhttps://api-demo-integration.apps.hml.sefaz.se.gov.br/geo/country
+```
