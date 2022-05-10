@@ -35,6 +35,13 @@ FLUSH PRIVILEGES;
 ```
 oc create configmap  demo-integration-backend --from-file ./application.properties 
 ```
+### Gerar Imagem com Podman
+
+```
+podman build -t iamrogerio2/demo-integration-backend:2.1 .
+podman push iamrogerio2/demo-integration-backend:2.1 
+```
+
 
 ### Criar a aplicação
 ```
@@ -60,7 +67,8 @@ oc create route edge api --service=demo-integration-backend --port=8080-tcp
 ```
 
 Endpoints
+
 ```
-<ROUTE/HOST>/geo/state/BRhttps://api-demo-integration.apps.hml.sefaz.se.gov.br/geo/state/BR
-<ROUTE/HOST>/geo/state/BRhttps://api-demo-integration.apps.hml.sefaz.se.gov.br/geo/country
+<ROUTE/HOST>/geo/state/BR
+<ROUTE/HOST>/geo/country
 ```

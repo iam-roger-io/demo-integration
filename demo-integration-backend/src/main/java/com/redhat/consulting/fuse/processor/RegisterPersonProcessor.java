@@ -15,12 +15,9 @@ import com.redhat.consulting.fuse.model.PersonModel;
 public class RegisterPersonProcessor implements Processor {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(RegisterPersonProcessor.class);
-	
-	
+		
 	@Override
 	public void process(Exchange exchange) throws Exception {
-	
-	
 		
 		PersonModel model = exchange.getIn().getBody(PersonModel.class);		
 		
