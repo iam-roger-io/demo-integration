@@ -136,7 +136,7 @@ public class RouteDemo extends RouteBuilder {
 
 		from("direct:delete-person")
 		.id("delete-person")		
-		.toD("jpa://com.redhat.consulting.fuse.entity.PeopleEntity?nativeQuery=delete from person a where a.id = ${header.id}")		
+		.toD("jpa://com.redhat.consulting.fuse.entity.PeopleEntity?nativeQuery=delete from people a where a.id = ${header.id}")		
 		.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(204));
 		   
     	
