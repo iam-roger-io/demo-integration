@@ -42,14 +42,22 @@ public class ApiRoute extends RouteBuilder {
 		
 		from("direct:send-email").routeId("send-email")		
 		.log("####### Sending message uging smtp: {{demo.integration.smtp.host}} and username {{demo.integration.smtp.username}}")		
+		
 		.setHeader("From", constant("iam.roger.io@terra.com.br"))
 		.setHeader("To", simple("${body.to}"))
+		
 		.setHeader("Reply-To", constant("iam.roger.io@terra.com.br"))
+		
 		.setHeader("Subject", simple("${body.subject}"))
+		
 		.setHeader("Content-Type", constant("text/plain"))
+		
 		.setBody(simple("${body.text}"))
+		
 		.to("smtps://{{demo.integration.smtp.host}}?username={{demo.integration.smtp.username}}&password={{demo.integration.smtp.password}}")
+		
 		.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(204));
-    	
+    		
+		
 	}
 }

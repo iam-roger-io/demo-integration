@@ -66,9 +66,8 @@ oc set volume deployment.apps/demo-integration-backend --add \
 oc create route edge api --service=demo-integration-backend --port=8080-tcp
 ```
 
-Endpoints
+### Endpoints 
 
-```
-<ROUTE/HOST>/geo/state/BR
-<ROUTE/HOST>/geo/country
-```
+See swagger doc
+
+[http://localhost:8080/api-doc/swagger.json](http://localhost:8080/api-doc/swagger.json)
