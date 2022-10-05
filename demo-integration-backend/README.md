@@ -45,14 +45,14 @@ podman push iamrogerio2/demo-integration-backend:2.1
 
 ### Criar a aplicação
 ```
-oc new-app iamrogerio2/demo-integration-backend:2.0
+oc new-app iamrogerio2/demo-integration-backend:3.0
 
 ```
 
 ### bind configMap ao deploymentconfig
 
 ```
-oc set volume deploymentconfig.apps.openshift.io/demo-integration-backend --add \
+oc set volume deployment.apps/demo-integration-backend --add \
    --name=demo-integration-backend  \
    -m /opt/fuse \
    -t configmap \
