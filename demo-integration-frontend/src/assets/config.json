@@ -1,0 +1,8 @@
+{
+    "keycloakUrl": "http://127.0.0.1:8080/auth/",
+    "realm": "<REALM NAME>",
+    "clientId": "<CLIENT ID NAME>",
+    "apiBff":"<REST API>",
+    "apiDemoIntegrationUrl":"<DEMO INTEGRATION BASE URL>",
+    "instanceName": "APPLICATION A"
+}

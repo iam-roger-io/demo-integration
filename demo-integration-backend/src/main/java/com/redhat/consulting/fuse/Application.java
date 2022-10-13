@@ -16,8 +16,8 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @ImportResource({"classpath:spring/camelContext.xml"})
-@PropertySource("classpath:application.properties")
-//@PropertySource("file:/opt/fuse/application.properties")
+//@PropertySource("classpath:application.properties")
+@PropertySource("file:/opt/fuse/application.properties")
 public class Application {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(Application.class);

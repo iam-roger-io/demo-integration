@@ -2,6 +2,7 @@ package com.redhat.consulting.fuse.route;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.rest.RestParamType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,7 +33,17 @@ public class ApiRoute extends RouteBuilder {
 		.id("post-sende-mail")
 		.produces("application/json")
 		.type(com.redhat.consulting.fuse.model.Email.class)
-		.to("direct:send-email");
+		.to("direct:send-email")
+		.description("Insere ou atualiza os dados de uma pessoa")
+		.apiDocs(true)
+		.param()		
+			.name("body").type(RestParamType.body).description("JSON com os dados da Pessoa").dataType("String").endParam()
+		.responseMessage()
+			.code(204).message("Nenhuma")			
+		.endResponseMessage()
+		.responseMessage()			
+			.code(500).message("Erro interno")
+		.endResponseMessage()			;
 				
 		/*
 		 *  Rota que executa o envio.

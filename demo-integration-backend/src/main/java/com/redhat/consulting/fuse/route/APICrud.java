@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestOperationParamDefinition;
 import org.apache.camel.model.rest.RestParamType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class APICrud extends RouteBuilder {
 	
 	@Override
 	public void configure() throws Exception {
-		
+
 		rest("/crud")
 		.produces("application/json")	
 		
