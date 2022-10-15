@@ -19,7 +19,7 @@ export class BffService {
 
     //token = "TESTE_TOKEN"
 
-    //console.log("########  token " + token);
+    console.log("########  token " + token);
     const httpOptions = {
       headers: new HttpHeaders({
 

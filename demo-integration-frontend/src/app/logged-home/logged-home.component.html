@@ -22,35 +22,6 @@
         </svg>
       </div>
 
-
-<!--
-    <div class="card-container" *ngIf="logged">
-      <h3>Perfil:</h3>
-
-      <span *ngFor="let perfil of listPerfil; index as perfilId">
-        <p *ngIf="perfil.roleRHSSO">
-          * {{ pessoa.roleRHSSO }}
-        </p>
-
-        <span *ngFor="let funcionalidade of perfil.listaFuncionalidades; index as funcionalidadeId">
-          <p *ngIf="funcionalidade.nomeFuncionalidade">
-           - {{ funcionalidade.nomeFuncionalidade }}
-          </p>
-        </span>
-
-      </span>
-
-
-      <span *ngFor="let person of listPerfil; index as _id">
-        <p >
-         - {{ person.nome }}
-        </p>
-      </span>
-
-    </div>
--->
-
-
 </div>
 
 <H3>Instance: {{instanceName}} </H3>
@@ -85,6 +56,20 @@
   <h3>Token:</h3>
   <textarea style="width: 1500px; height: 324px;" disabled="true">{{ tokenJWT }}</textarea>
 </div>
+
+<div *ngIf="logged">
+  <h3>Pessoas:</h3>
+  <table>
+    <tr>      
+      <td>
+        <div  *ngFor="let person of listPerfil; index as _id" >
+          {{ person.nome }}
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
 
 <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
   <title>Gray Clouds Background</title>
