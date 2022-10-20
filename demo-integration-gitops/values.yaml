@@ -5,5 +5,5 @@ database:
 backend: 
    app: 
      name: 'demo-integration-backend'   
-   image: iamrogerio2/demo-integration-backend:1.0
+   image: quay.io/iam_roger_io/demo-integration-backend:3.0   
 frontend: {}
