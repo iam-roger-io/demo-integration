@@ -22,3 +22,10 @@ data:
     database.mysql.username=root
 
     database.mysql.password=1qaz@WSX
+    
+    demo.integration.smtp.host=teste@teste.com
+
+    demo.integration.smtp.username=username
+    
+    demo.integration.smtp.password=password
+
