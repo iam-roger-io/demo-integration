@@ -1,10 +1,17 @@
 # demo-integration-backend
 
-#### Deploy MySQL Openshift
+
+## Preparando o ambiente
+
+*Create a namespace*
+
+``` 
+oc new-project demo-integration
+```
+
+*Provisioning a MySQL database.*
 
 ```
-oc new-project demo-integration
-
 oc new-app --template=mysql-persistent \
 -p MYSQL_USER=admin \
 -p MYSQL_PASSWORD=admin \
@@ -15,59 +22,60 @@ oc new-app --template=mysql-persistent \
 -p MEMORY_LIMIT=512Mi
 ```
 
-Para ajustar permissões do usuário admin
+*Schema e Dados*
+
+Importe o arquivo [./database/demointegrationdb.sql](./database/demointegrationdb.sql) para a base de dados MySQL criada no Openshift 4
+
+
+## Provisioning the Application.
+
+*Gerar Pacote*
 
 ```
-GRANT ALL ON *.* TO 'admin'@'%';
-FLUSH PRIVILEGES;
-
+mvn clean install
 ```
 
-#### Schema e Dados
-
-[./database/demointegrationdb.sql](./database/demointegrationdb.sql)
-
-
-## Deploy manual no Openshift 4
-
-### Criar config map com o arquivo de properties da pasta resources/spring
+*Gerar Imagem com Podman*
 
 ```
-oc create configmap  demo-integration-backend --from-file ./application.properties 
-```
-### Gerar Imagem com Podman
+podman build -t iamrogerio2/demo-integration-backend:2.0 .
 
-```
-podman build -t iamrogerio2/demo-integration-backend:2.1 .
-podman push iamrogerio2/demo-integration-backend:2.1 
+podman push iamrogerio2/demo-integration-backend:2.0 
 ```
 
-
-### Criar a aplicação
-```
-oc new-app iamrogerio2/demo-integration-backend:3.0
+*Deploy*
 
 ```
+oc new-app iamrogerio2/demo-integration-backend:2.0
 
-### bind configMap ao deploymentconfig
-
-```
-oc set volume deployment.apps/demo-integration-backend --add \
-   --name=demo-integration-backend  \
-   -m /opt/fuse \
-   -t configmap \
-   --configmap-name=demo-integration-backend \
-   --default-mode='0777' \
-   --overwrite
-```
-
-### Criar rota
-```
 oc create route edge api --service=demo-integration-backend --port=8080-tcp
 ```
 
-### Endpoints 
 
-See swagger doc
+# Endpoints
 
-[http://localhost:8080/api-doc/swagger.json](http://localhost:8080/api-doc/swagger.json)
+*Post*
+
+```
+curl --location 'https://api-demo-integration.apps-crc.testing/crud/person' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    
+    "name" : "Kaleb Sharon",
+	"email" : "ks@hieca.com",	
+	"mobile" : "+55 11 54550-5579"
+
+}
+
+```
+*POST*
+
+```
+curl --location 'https://api-demo-integration.apps-crc.testing/crud/person'
+```
+
+*DEL*
+
+```
+curl --location --request DELETE 'https://api-demo-integration.apps-crc.testing/crud/person/13'
+```
