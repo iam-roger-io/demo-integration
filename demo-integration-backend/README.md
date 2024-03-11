@@ -38,9 +38,9 @@ mvn clean install
 *Gerar Imagem com Podman*
 
 ```
-podman build -t iamrogerio2/demo-integration-backend:2.0 .
+podman build -t iamrogerio2/demo-integration-backend:<NOME-DA-TAG> .
 
-podman push iamrogerio2/demo-integration-backend:2.0 
+podman push iamrogerio2/demo-integration-backend:<NOME-DA-TAG> 
 ```
 
 *Deploy*
@@ -64,9 +64,12 @@ oc create route edge api-https --service=demo-integration-backend --port=8080
 # Endpoints
 
 *Post*
+- {URL}/crud/students
+
+Exemplo:
 
 ```
-curl --location 'https://api-demo-integration.apps-crc.testing/crud/person' \
+curl --location 'http://api-http-demo-integration.apps-crc.testing/crud/students' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     
@@ -74,17 +77,27 @@ curl --location 'https://api-demo-integration.apps-crc.testing/crud/person' \
 	"email" : "ks@hieca.com",	
 	"mobile" : "+55 11 54550-5579"
 
-}
+}'
 
 ```
-*POST*
+*GET*
+
+- {URL}/crud/students
+- {URL}/crud/students/{ID}
+
+Exemplo:
 
 ```
-curl --location 'https://api-demo-integration.apps-crc.testing/crud/person'
+curl --location 'http://api-http-demo-integration.apps-crc.testing/crud/students'
+curl --location 'http://api-http-demo-integration.apps-crc.testing/crud/students/13'
 ```
 
 *DEL*
 
+- {URL}/crud/students/{ID}
+
+Exemplo:
+
 ```
-curl --location --request DELETE 'https://api-demo-integration.apps-crc.testing/crud/person/13'
+curl --location --request DELETE 'http://api-http-demo-integration.apps-crc.testing/crud/students/13'
 ```

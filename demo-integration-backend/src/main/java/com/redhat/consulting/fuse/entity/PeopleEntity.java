@@ -2,22 +2,26 @@ package com.redhat.consulting.fuse.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.redhat.consulting.fuse.model.PersonModel;
+import com.redhat.consulting.fuse.model.PeopleModel;
+
 
 @Entity
 @Table(name = "people")
-@NamedQuery(name = "findAllPeople", query = "select a from PeopleEntity a")
+@NamedQueries({
+		@NamedQuery(name = "findAllPeople", query = "select a from PeopleEntity a"),
+		@NamedQuery(name = "findAllStudents", query = "select a from PeopleEntity a where a.type = 1"),
+		@NamedQuery(name = "findAllTeachers", query = "select a from PeopleEntity a where a.type = 2")
+})
+
 public class PeopleEntity implements Serializable {
 
 	private static final long serialVersionUID = 6932170202779243732L;
@@ -32,32 +36,13 @@ public class PeopleEntity implements Serializable {
 	
 	@Column(name="email")
 	private String email;
-	
-	@Column(name="social_security")
-	private String socialSecuriry;
-	
+
 	@Column(name="mobile")
 	private String mobile;
 	
-	@Column(name="address")
-	private String endereco;
-	
-	@Column(name="address2")
-	private String address2;
-	
-	@Column(name="city")
-	private String city;
-	
-	@Column(name="zip_code")
-	private String zipCode;
-	
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "state_id", referencedColumnName = "id")	
-	private StateEntity state;	
-	
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "country_code", referencedColumnName = "country_code")    
-    private CountryEntity country;
+	@Column(name="type")
+	private Integer type;
+	    
     
 	public PeopleEntity() {
 	}
@@ -85,15 +70,7 @@ public class PeopleEntity implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getSocialSecuriry() {
-		return socialSecuriry;
-	}
-
-	public void setSocialSecuriry(String socialSecuriry) {
-		this.socialSecuriry = socialSecuriry;
-	}
-
+	
 	public String getMobile() {
 		return mobile;
 	}
@@ -102,77 +79,29 @@ public class PeopleEntity implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	public String getAddress2() {
-		return address2;
-	}
-
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	public StateEntity getState() {
-		return state;
-	}
-
-	public void setState(StateEntity state) {
-		this.state = state;
-	}
-
-	public CountryEntity getCountry() {
-		return country;
-	}
-
-	public void setCountry(CountryEntity country) {
-		this.country = country;
-	}
 	
-	public PersonModel toModel() {
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public PeopleModel toModel() {
 		
-		PersonModel model = new PersonModel();
-		model.setNome(this.getName());
-		model.setComplemento(this.getAddress2());
-		model.setCidade(this.getCity());
-		model.setPais(this.getCountry().getName());
-		model.setEmail(this.getEmail());
-		model.setEndereco(this.getEndereco());
-		model.set_id(this.getId());
-		model.setCelular(this.getMobile());
-		model.setCpf(this.getSocialSecuriry());
-		model.setUf(this.getState().getName());
-		model.setCep(this.getSocialSecuriry());		
+		PeopleModel model = new PeopleModel();
+		model.setName(this.getName());
+		model.setEmail(this.getEmail());		
+		model.setId(this.getId());
+		model.setMobile(this.getMobile());
 		
 		return model;
 	}
 
 	@Override
 	public String toString() {
-		return "PeopleEntity [id=" + id + ", name=" + name + ", email=" + email + ", socialSecuriry=" + socialSecuriry
-				+ ", mobile=" + mobile + ", endereco=" + endereco + ", address2=" + address2 + ", city=" + city
-				+ ", zipCode=" + zipCode + ", state=" + state + ", country=" + country + "]";
+		return "PeopleEntity [id=" + id + ", name=" + name + ", email=" + email + ", mobile=" + mobile  + ", type=" + type + "]";
 	}
 
 	

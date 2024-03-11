@@ -15,8 +15,7 @@ public class APiGeo extends RouteBuilder {
 	
 	@Override
 	public void configure() throws Exception {
-		
-		
+				
 		rest("/geo")
 		.get("/country")
 		.id("get-find-all-countries")

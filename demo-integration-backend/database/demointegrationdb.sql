@@ -30,8 +30,10 @@ CREATE TABLE `people` (
   `state_id` int DEFAULT NULL,
   `zip_code` varchar(45) DEFAULT NULL,
   `country_code` varchar(4) DEFAULT NULL,
+  `type` int NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 INSERT INTO `demointegrationdb`.`country` (country_code, name) VALUES ("BR", "Brazil");
 INSERT INTO `demointegrationdb`.`country` (country_code, name) VALUES ("USA", "United States");

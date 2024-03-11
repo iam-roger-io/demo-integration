@@ -38,8 +38,10 @@ public class DataSourceMySQl {
 		
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setUrl(this.dataBaseUrl);
+		
 		dataSource.setUsername(this.dataBaseUsername);
 		dataSource.setPassword(this.dataBasePassword);
+
 		return dataSource;
 	}
 }
