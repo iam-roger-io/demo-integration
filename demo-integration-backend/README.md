@@ -46,7 +46,7 @@ podman push iamrogerio2/demo-integration-backend:<NOME-DA-TAG>
 *Deploy*
 
 ```
-oc new-app iamrogerio2/demo-integration-backend:2.0
+oc new-app iamrogerio2/demo-integration-backend:<NOME-DA-TAG>
 ```
 
 *Rota HTTP*
@@ -60,6 +60,8 @@ oc expose svc/demo-integration-backend --port=8080 --name=api-http
 ```
 oc create route edge api-https --service=demo-integration-backend --port=8080
 ```
+
+Consulte também os scripts [deploy.sh](deploy.sh) e [undeploy.sh](undeploy.sh) 
 
 # Endpoints
 
