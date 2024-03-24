@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: '{{ .Values.backend.app.name }}'
-  namespace: demo-integration
+  namespace: {{ .Values.namesapace }}
   labels:
     app: demo-integration-backend
     app.kubernetes.io/component: '{{ .Values.backend.app.name }}'

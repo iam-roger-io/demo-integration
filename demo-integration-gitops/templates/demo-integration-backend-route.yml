@@ -2,7 +2,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: api
-  namespace: demo-integration 
+  namespace: {{ .Values.namesapace }}
 spec:  
   to:
     kind: Service

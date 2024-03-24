@@ -1,7 +1,16 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
-metadata:    
-  name: mysql-pvc 
+metadata:
+  name: mysql
+  namespace: {{ .Values.namesapace }}
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    app: mysql-persistent
+    app.kubernetes.io/component: mysql-persistent
+    app.kubernetes.io/instance: mysql-persistent
+    app.openshift.io/runtime: mysql-database
+    template: mysql-persistent-template
 spec:
   accessModes:
     - ReadWriteOnce

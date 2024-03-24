@@ -24,7 +24,24 @@ oc new-app --template=mysql-persistent \
 
 *Schema e Dados*
 
-Importe o arquivo [./database/demointegrationdb.sql](./database/demointegrationdb.sql) para a base de dados MySQL criada no Openshift 4
+Importe o arquivo [./database/demointegrationdb.sql](./database/demointegrationdb.sql) para a base de dados MySQL criada no Openshift 4.
+
+- O importe pode ser feito através de uma ferramenta como MySQL WorkBench
+- Por linha de comando:
+
+# Iniciar base de dados
+
+```
+export NAMESPACE=demo-integration
+export MYSQL_SELECTOR=mysql
+
+export MYSQL_POD=$(oc get pods  -o custom-columns=POD:.metadata.name  --no-headers --selector deployment=$MYSQL_SELECTOR -n $NAMESPACE)
+
+oc rsh -n $NAMESPACE $MYSQL_POD mysql -u admin -padmin demointegrationdb < ./demo-integration-backend/database/demointegrationdb.sql 
+```
+
+
+
 
 
 ## Provisioning the Application.

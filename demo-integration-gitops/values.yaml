@@ -1,9 +1,9 @@
-cluster: {}
+namespace: demo-integration
 database: 
   mysql: 
-   image: rhel8/mysql-80:1-162.1645816983    
+   image: docker.io/library/mysql:8.0   
 backend: 
    app: 
      name: 'demo-integration-backend'   
-   image: quay.io/iam_roger_io/demo-integration-backend:1.0   
+   image: docker.io/iamrogerio2/demo-integration-backend:1.0.0  
 frontend: {}

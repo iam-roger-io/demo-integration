@@ -2,17 +2,27 @@ kind: Service
 apiVersion: v1
 metadata:
   name: mysql
+  namespace: {{ .Values.namesapace }}
   labels:
+    app: mysql-persistent
+    app.kubernetes.io/component: mysql-persistent
+    app.kubernetes.io/instance: mysql-persistent
+    app.openshift.io/runtime: mysql-database
+    template: mysql-persistent-template
   annotations:
+    openshift.io/generated-by: OpenShiftNewApp
     template.openshift.io/expose-uri: 'mysql://{.spec.clusterIP}:{.spec.ports[?(.name=="mysql")].port}'
-spec:    
+spec:
+  ipFamilies:
+    - IPv4
   ports:
     - name: mysql
       protocol: TCP
       port: 3306
       targetPort: 3306
   internalTrafficPolicy: Cluster
-  type: ClusterIP  
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
     name: mysql

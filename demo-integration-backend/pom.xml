@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.redhat.consulting</groupId>
 	<artifactId>demo-intergration-backend</artifactId>
-	<version>3.0</version>
+	<version>1.0</version>
 	
 	<properties>
 		<project.reporting.outputencoding>UTF-8</project.reporting.outputencoding>
