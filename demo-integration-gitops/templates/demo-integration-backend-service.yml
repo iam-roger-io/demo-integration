@@ -4,14 +4,12 @@ metadata:
   name: '{{ .Values.backend.app.name }}'
   namespace: {{ .Values.namesapace }}
   labels:
-    app: demo-integration-backend
+    app: {{ .Values.backend.app.name }}
     app.kubernetes.io/component: '{{ .Values.backend.app.name }}'
     app.kubernetes.io/instance: '{{ .Values.backend.app.name }}'
     app.kubernetes.io/name: '{{ .Values.backend.app.name }}'
     app.kubernetes.io/part-of: '{{ .Values.backend.app.name }}'
     app.openshift.io/runtime-version: '1.0'
-  annotations:
-    openshift.io/generated-by: OpenShiftWebConsole 
 spec:
   ports:
     - name: 8080-tcp
@@ -35,7 +33,6 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    app: '{{ .Values.backend.app.name }}'
-    deploymentconfig: '{{ .Values.backend.app.name }}'
+    deployment: '{{ .Values.backend.app.name }}'    
 status:
   loadBalancer: {}

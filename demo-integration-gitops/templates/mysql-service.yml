@@ -4,13 +4,8 @@ metadata:
   name: mysql
   namespace: {{ .Values.namesapace }}
   labels:
-    app: mysql-persistent
-    app.kubernetes.io/component: mysql-persistent
-    app.kubernetes.io/instance: mysql-persistent
     app.openshift.io/runtime: mysql-database
-    template: mysql-persistent-template
   annotations:
-    openshift.io/generated-by: OpenShiftNewApp
     template.openshift.io/expose-uri: 'mysql://{.spec.clusterIP}:{.spec.ports[?(.name=="mysql")].port}'
 spec:
   ipFamilies:

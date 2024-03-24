@@ -1,9 +1,11 @@
 namespace: demo-integration
 database: 
   mysql: 
-   image: docker.io/library/mysql:8.0   
+   #image: docker.io/library/mysql:8.0      
+   image: registry.redhat.io/rhel8/mysql-80:1-162.1645816983
 backend: 
    app: 
      name: 'demo-integration-backend'   
    image: docker.io/iamrogerio2/demo-integration-backend:1.0.0  
+   host: api-http-demo-integration.apps.cluster-6bwpt.6bwpt.sandbox150.opentlc.com
 frontend: {}

@@ -1,13 +1,18 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: api
+  name: api-http
   namespace: {{ .Values.namesapace }}
-spec:  
+  labels:
+    app: {{ .Values.backend.app.name }}
+    app.kubernetes.io/component: {{ .Values.backend.app.name }}
+    app.kubernetes.io/instance: {{ .Values.backend.app.name }}
+spec:
+  host: {{ .Values.backend.host }}
   to:
     kind: Service
     name: '{{ .Values.backend.app.name }}'
     weight: 100
   port:
-    targetPort: 8080-tcp
+    targetPort: 8080
   wildcardPolicy: None
