@@ -1,4 +1,4 @@
-namespace: demo-integration
+namespace: 'redhat-consulting'
 database: 
   mysql: 
    #image: docker.io/library/mysql:8.0      
@@ -7,5 +7,5 @@ backend:
    app: 
      name: 'demo-integration-backend'   
    image: docker.io/iamrogerio2/demo-integration-backend:1.0.0  
-   host: api-http-demo-integration.apps.cluster-6bwpt.6bwpt.sandbox150.opentlc.com
+   host: api-http-demo-integration.apps.santalydia-ocp.cloud.prodesp.sp.gov.br
 frontend: {}

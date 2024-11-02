@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: {{ .Values.backend.app.name }}
-  namespace: {{ .Values.namesapace }}
+  namespace: '{{ .Values.namespace }}'
   labels:
     app: {{ .Values.backend.app.name }}
     app.kubernetes.io/component: {{ .Values.backend.app.name }}

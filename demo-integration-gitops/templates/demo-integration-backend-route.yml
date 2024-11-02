@@ -2,7 +2,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: api-http
-  namespace: {{ .Values.namesapace }}
+  namespace: '{{ .Values.namespace }}'
   labels:
     app: {{ .Values.backend.app.name }}
     app.kubernetes.io/component: {{ .Values.backend.app.name }}

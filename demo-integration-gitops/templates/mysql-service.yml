@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: mysql
-  namespace: {{ .Values.namesapace }}
+  namespace: '{{ .Values.namespace }}'
   labels:
     app.openshift.io/runtime: mysql-database
   annotations:

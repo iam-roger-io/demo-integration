@@ -1,0 +1,311 @@
+---
+# Source: webris/templates/mysql-secret.yaml
+kind: Secret
+apiVersion: v1
+metadata:
+  name: mysql
+  namespace: 'redhat-consulting'
+  labels:
+    template: mysql-persistent-template
+    template.openshift.io/template-instance-owner: 32d36309-3a52-48f0-9a0f-42cbd0fd245c
+  annotations:
+    template.openshift.io/expose-database_name: '{.data[''database-name'']}'
+    template.openshift.io/expose-password: '{.data[''database-password'']}'
+    template.openshift.io/expose-root_password: '{.data[''database-root-password'']}'
+    template.openshift.io/expose-username: '{.data[''database-user'']}'
+data:
+  database-name: ZGVtb2ludGVncmF0aW9uZGI=
+  database-password: YWRtaW4=
+  database-root-password: cm9vdA==
+  database-user: YWRtaW4=
+type: Opaque
+---
+# Source: webris/templates/demo-integration-backend-configmap.yml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: 'demo-integration-backend'
+  namespace: 'redhat-consulting'
+data:
+  application.properties: |-
+
+    camel.springboot.name=demo-integration-backend
+
+    camel.component.servlet.mapping.contextPath=/*
+
+    server.address=0.0.0.0
+
+    server.port=8080
+
+    management.server.port=8081
+
+    # Database
+    database.mysql.url=jdbc:mysql://mysql:3306/demointegrationdb
+
+    database.mysql.username=root
+
+    database.mysql.password=1qaz@WSX
+    
+    demo.integration.smtp.host=teste@teste.com
+
+    demo.integration.smtp.username=username
+    
+    demo.integration.smtp.password=password
+---
+# Source: webris/templates/mysql-pvc.yml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mysql
+  namespace: 'redhat-consulting'
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    app: mysql-persistent
+    app.kubernetes.io/component: mysql-persistent
+    app.kubernetes.io/instance: mysql-persistent
+    app.openshift.io/runtime: mysql-database
+    template: mysql-persistent-template
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+---
+# Source: webris/templates/demo-integration-backend-service.yml
+kind: Service
+apiVersion: v1
+metadata:
+  name: 'demo-integration-backend'
+  namespace: 'redhat-consulting'
+  labels:
+    app: demo-integration-backend
+    app.kubernetes.io/component: 'demo-integration-backend'
+    app.kubernetes.io/instance: 'demo-integration-backend'
+    app.kubernetes.io/name: 'demo-integration-backend'
+    app.kubernetes.io/part-of: 'demo-integration-backend'
+    app.openshift.io/runtime-version: '1.0'
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: 8443-tcp
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+    - name: 8778-tcp
+      protocol: TCP
+      port: 8778
+      targetPort: 8778
+    - name: 9779-tcp
+      protocol: TCP
+      port: 9779
+      targetPort: 9779
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    deployment: 'demo-integration-backend'    
+status:
+  loadBalancer: {}
+---
+# Source: webris/templates/mysql-service.yml
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysql
+  namespace: 'redhat-consulting'
+  labels:
+    app.openshift.io/runtime: mysql-database
+  annotations:
+    template.openshift.io/expose-uri: 'mysql://{.spec.clusterIP}:{.spec.ports[?(.name=="mysql")].port}'
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: mysql
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    name: mysql
+---
+# Source: webris/templates/demo-integration-backend-deployment.yml
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: demo-integration-backend
+  namespace: 'redhat-consulting'
+  labels:
+    app: demo-integration-backend
+    app.kubernetes.io/component: demo-integration-backend
+    app.kubernetes.io/instance: demo-integration-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: demo-integration-backend
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deployment: demo-integration-backend
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+    spec:
+      containers:
+        - name: demo-integration-backend
+          image: 'docker.io/iamrogerio2/demo-integration-backend:1.0.0'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+            - containerPort: 9779
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+---
+# Source: webris/templates/mysql-deployment.yaml
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  annotations:
+    template.alpha.openshift.io/wait-for-ready: 'true'  
+  name: mysql
+  namespace: 'redhat-consulting'
+  labels:
+    app.openshift.io/runtime: mysql-database
+    template: mysql-persistent-template
+spec:
+  strategy:
+    type: Recreate
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    activeDeadlineSeconds: 21600
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    name: mysql
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: mysql
+    spec:
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql
+      containers:
+        - resources:
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - '-i'
+                - '-c'
+                - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          name: mysql
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - '-i'
+                - '-c'
+                - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: database-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: database-password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: database-root-password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: database-name
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql/data
+          terminationMessagePolicy: File
+          image: registry.redhat.io/rhel8/mysql-80:1-162.1645816983
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+---
+# Source: webris/templates/demo-integration-backend-route.yml
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: api-http
+  namespace: 'redhat-consulting'
+  labels:
+    app: demo-integration-backend
+    app.kubernetes.io/component: demo-integration-backend
+    app.kubernetes.io/instance: demo-integration-backend
+spec:
+  host: api-http-demo-integration.apps.santalydia-ocp.cloud.prodesp.sp.gov.br
+  to:
+    kind: Service
+    name: 'demo-integration-backend'
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None

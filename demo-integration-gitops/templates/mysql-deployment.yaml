@@ -4,7 +4,7 @@ metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: 'true'  
   name: mysql
-  namespace: {{ .Values.namesapace }}
+  namespace: '{{ .Values.namespace }}'
   labels:
     app.openshift.io/runtime: mysql-database
     template: mysql-persistent-template
