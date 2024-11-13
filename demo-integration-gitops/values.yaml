@@ -1,4 +1,4 @@
-namespace: 'redhat-consulting'
+namespace: 'demo-integration'
 database: 
   mysql: 
    #image: docker.io/library/mysql:8.0      
