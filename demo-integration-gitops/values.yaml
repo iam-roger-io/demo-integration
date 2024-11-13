@@ -6,6 +6,6 @@ database:
 backend: 
    app: 
      name: 'demo-integration-backend'   
-   image: docker.io/iamrogerio2/demo-integration-backend:1.0.0  
+   image: docker.io/iamrogerio2/demo-integration-backend:0.0.99
    host: api-http-demo-integration.apps.santalydia-ocp.cloud.prodesp.sp.gov.br
 frontend: {}
