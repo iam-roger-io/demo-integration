@@ -40,10 +40,6 @@ export MYSQL_POD=$(oc get pods  -o custom-columns=POD:.metadata.name  --no-heade
 oc rsh -n $NAMESPACE $MYSQL_POD mysql -u admin -padmin demointegrationdb < ./demo-integration-backend/database/demointegrationdb.sql 
 ```
 
-
-
-
-
 ## Provisioning the Application.
 
 *Gerar Pacote*

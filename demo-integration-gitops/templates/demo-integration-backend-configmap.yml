@@ -15,13 +15,6 @@ data:
     server.port=8080
 
     management.server.port=8081
-
-    # Database
-    database.mysql.url=jdbc:mysql://mysql:3306/demointegrationdb
-
-    database.mysql.username=root
-
-    database.mysql.password=1qaz@WSX
     
     demo.integration.smtp.host=teste@teste.com
 

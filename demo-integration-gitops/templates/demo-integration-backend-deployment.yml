@@ -32,6 +32,22 @@ spec:
               protocol: TCP
             - containerPort: 9779
               protocol: TCP
+          env:
+            - name: DATABASE_MYSQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: demo-integration-backend
+                  key: DATABASE_MYSQL_USERNAME
+            - name: DATABASE_MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-integration-backend
+                  key: DATABASE_MYSQL_PASSWORD
+            - name: DATABASE_MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: demo-integration-backend
+                  key: DATABASE_MYSQL_URL
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
