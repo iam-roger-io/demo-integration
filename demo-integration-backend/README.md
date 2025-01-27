@@ -1,9 +1,9 @@
 # demo-integration-backend
 
 
-## Preparando o ambiente
+## 1 Preparando o ambiente
 
-### Local
+### 1.1 Local
 
 *Create a MYSQL 8 instance*
 
@@ -25,7 +25,7 @@ mysql  -h 127.0.0.1 -P 3306 -u admin -padmin demointegrationdb < ./demo-integrat
 ```
 
 
-### Openshift 4
+### 1.2 Openshift 4
 
 *Create a namespace*
 
@@ -62,9 +62,9 @@ export MYSQL_POD=$(oc get pods  -o custom-columns=POD:.metadata.name  --no-heade
 oc rsh -n $NAMESPACE $MYSQL_POD mysql -u admin -padmin demointegrationdb < ./demo-integration-backend/database/demointegrationdb.sql 
 ```
 
-## Provisioning/Running the Application.
+## 2 Provisioning/Running the Application.
 
-### Local
+### 2.1 Local
 
 Considerando que o MYSQL esta em execução conforme descrito no item *Preparando o ambiente*
 
@@ -76,7 +76,7 @@ mvn spring-boot:run \
 ```
 
 
-### Openshift 4
+### 2.2 Openshift 4
 
 *Gerar Pacote*
 
@@ -113,7 +113,7 @@ oc create route edge api-https --service=demo-integration-backend --port=8080
 Consulte também os scripts [deploy.sh](deploy.sh) e [undeploy.sh](undeploy.sh) 
 
 
-## Endpoints
+## 3 Endpoints
 
 *Post*
 - {URL}/crud/students
