@@ -35,6 +35,9 @@ CREATE TABLE `people` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+
+
+
 INSERT INTO `demointegrationdb`.`country` (country_code, name) VALUES ("BR", "Brazil");
 INSERT INTO `demointegrationdb`.`country` (country_code, name) VALUES ("USA", "United States");
 INSERT INTO `demointegrationdb`.`country` (country_code, name) VALUES ("MX", "Mexico");
@@ -129,3 +132,6 @@ INSERT INTO `demointegrationdb`.`state` (`name`, `abbreviation`, `country_code`)
 INSERT INTO `demointegrationdb`.`state` (`name`, `abbreviation`, `country_code`) VALUES  ("Armed Forces Europe", "AE", "USA");
 INSERT INTO `demointegrationdb`.`state` (`name`, `abbreviation`, `country_code`) VALUES  ("Armed Forces Middle East", "AE", "USA");
 INSERT INTO `demointegrationdb`.`state` (`name`, `abbreviation`, `country_code`) VALUES  ("Armed Forces Pacific", "AP", "USA");
+
+INSERT INTO `people` VALUES (100,'Kaleb Sharon',NULL,'ks@hieca.com','+55 11 54550-5579',NULL,NULL,NULL,NULL,"SP","BR",1);
+INSERT INTO `people` VALUES (200,'Billy Graham',NULL,'billy-graham-fk@redhat.com','+1 919 754 3701 4550-5579',NULL,NULL,NULL,NULL,"AZ","USA",1)
