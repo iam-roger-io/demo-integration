@@ -3,6 +3,30 @@
 
 ## Preparando o ambiente
 
+### Local
+
+*Create a MYSQL 8 instance*
+
+```
+podman run -d --name mysql \
+  -e MYSQL_USER=admin \
+  -e MYSQL_PASSWORD=admin \
+  -e MYSQL_DATABASE=demointegrationdb \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -v mysql_data:/var/lib/mysql \
+  -p 3306:3306 \
+  docker.io/mysql:8.0
+```
+
+*Import the Schema*
+
+```
+mysql  -h 127.0.0.1 -P 3306 -u admin -padmin demointegrationdb < ./demo-integration-backend/database/demointegrationdb.sql
+```
+
+
+### Openshift 4
+
 *Create a namespace*
 
 ``` 
@@ -22,14 +46,12 @@ oc new-app --template=mysql-persistent \
 -p MEMORY_LIMIT=512Mi
 ```
 
-*Schema e Dados*
+*Import the Schema*
 
 Importe o arquivo [./database/demointegrationdb.sql](./database/demointegrationdb.sql) para a base de dados MySQL criada no Openshift 4.
 
 - O importe pode ser feito através de uma ferramenta como MySQL WorkBench
 - Por linha de comando:
-
-# Iniciar base de dados
 
 ```
 export NAMESPACE=demo-integration
@@ -40,7 +62,21 @@ export MYSQL_POD=$(oc get pods  -o custom-columns=POD:.metadata.name  --no-heade
 oc rsh -n $NAMESPACE $MYSQL_POD mysql -u admin -padmin demointegrationdb < ./demo-integration-backend/database/demointegrationdb.sql 
 ```
 
-## Provisioning the Application.
+## Provisioning/Running the Application.
+
+### Local
+
+Considerando que o MYSQL esta em execução conforme descrito no item *Preparando o ambiente*
+
+```
+mvn spring-boot:run \
+  -Dspring-boot.run.arguments="--DATABASE_MYSQL_URL=jdbc:mysql://localhost:3306/demointegrationdb \
+  --DATABASE_MYSQL_USERNAME=admin \
+  --DATABASE_MYSQL_PASSWORD=admin"
+```
+
+
+### Openshift 4
 
 *Gerar Pacote*
 
@@ -76,7 +112,8 @@ oc create route edge api-https --service=demo-integration-backend --port=8080
 
 Consulte também os scripts [deploy.sh](deploy.sh) e [undeploy.sh](undeploy.sh) 
 
-# Endpoints
+
+## Endpoints
 
 *Post*
 - {URL}/crud/students
